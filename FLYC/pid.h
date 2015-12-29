@@ -3,8 +3,8 @@ struct Angle {
   float pitch = 0;
   float roll  = 0;
 };
-struct Angle q_angle;
-struct Angle exp_angle;
+struct Angle q_angle;    // real angle read from mpu6050
+struct Angle exp_angle;  // expected angle received from Remote Control
 VectorFloat diff_angle;
 
 struct PID {

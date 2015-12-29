@@ -34,7 +34,7 @@ void loop(){
   T_temp /= 3;  Y_temp /= 3;
   P_temp /= 3;  R_temp /= 3;
   
-  Throttle = map(T_temp, 0, 1023, -100, 100);
+  Throttle = map(T_temp, 0, 1023,    0, 1000);
   Yaw      = map(Y_temp, 0, 1023, -100, 100);
   Pitch    = map(P_temp, 0, 1023, -100, 100);
   Roll     = map(R_temp, 0, 1023, -100, 100);

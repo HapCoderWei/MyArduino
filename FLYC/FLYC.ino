@@ -55,7 +55,6 @@ void loop() {
   Motor[3] = (int16_t)(Thr - Pitch +Rool+ Yaw );    //M4 
   Motor[1] = (int16_t)(Thr + Pitch -Rool+ Yaw );    //M2    
 
-
 }
 
 

@@ -1,2 +1,2 @@
 # MyArduino
-Back up of Arduino project
+Back up of My Arduino project

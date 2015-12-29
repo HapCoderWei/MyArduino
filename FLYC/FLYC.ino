@@ -50,10 +50,10 @@ void loop() {
   Yaw = -20 * (gyro.z + exp_angle.yaw/1.2); // the -20 should be the PID_Yaw.D
 
   // Output the throttle to motors
-  Motor[2] = (int16_t)(Thr - Pitch -Rool- Yaw );    //M3  
+  Motor[2] = (int16_t)(Thr - Pitch -Rool- Yaw );    //M3
   Motor[0] = (int16_t)(Thr + Pitch +Rool- Yaw );    //M1
-  Motor[3] = (int16_t)(Thr - Pitch +Rool+ Yaw );    //M4 
-  Motor[1] = (int16_t)(Thr + Pitch -Rool+ Yaw );    //M2    
+  Motor[3] = (int16_t)(Thr - Pitch +Rool+ Yaw );    //M4
+  Motor[1] = (int16_t)(Thr + Pitch -Rool+ Yaw );    //M2
 
 }
 

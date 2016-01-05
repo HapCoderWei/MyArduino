@@ -12,7 +12,7 @@ int Throttle, Pitch, Roll, Yaw;
 
 RF24 radio(7, 8);
 const byte rxAddr[6] = "00001";
-unsigned char TxBuf[32] = {0};
+unsigned int TxBuf[32] = {0};
 
 void setup(){
   radio.begin();
@@ -39,14 +39,13 @@ void loop(){
   Pitch    = map(P_temp, 0, 1023, -100, 100);
   Roll     = map(R_temp, 0, 1023, -100, 100);
   
-  Serial.println(Throttle);
   TxBuf[0] = Throttle * 10;  // Step By 10, So [0, 100] -> [0, 1000]
   TxBuf[1] = Yaw;
   TxBuf[2] = Pitch;
   TxBuf[3] = Roll;
 
   TxBuf[31] = 0x5A;
-
+  Serial.println(Throttle);
   radio.write(&TxBuf, sizeof(TxBuf));
 }
 

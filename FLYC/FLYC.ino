@@ -45,7 +45,7 @@ void loop() {
   Rool  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;
 
   Thr = 0.001 * throttle * throttle;
-  Thr -= 80 * diff_acc_z;
+  Thr -= 80 * diff_acc_z;  // negative feedback for Z axis
 
   Yaw = -20 * (gyro.z + exp_angle.yaw/1.2); // the -20 should be the PID_Yaw.D
 

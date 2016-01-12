@@ -2,10 +2,10 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 
-#define THRO_PIN  1
-#define YAW_PIN   2
-#define PITCH_PIN 3
-#define ROLL_PIN  4
+#define THRO_PIN  2
+#define YAW_PIN   3
+#define PITCH_PIN 1
+#define ROLL_PIN  0
 
 int T_temp, P_temp, R_temp, Y_temp, i;
 int Throttle, Pitch, Roll, Yaw;
@@ -20,7 +20,7 @@ void setup(){
   radio.openWritingPipe(rxAddr);
   
   radio.stopListening();
-  Serial.begin(9600);
+  //Serial.begin(9600);
 }
 void loop(){
   T_temp = 0;  Y_temp = 0;
@@ -34,10 +34,10 @@ void loop(){
   T_temp /= 3;  Y_temp /= 3;
   P_temp /= 3;  R_temp /= 3;
   
-  Throttle = map(T_temp, 0, 1023,    0, 100);
-  Yaw      = map(Y_temp, 0, 1023, -100, 100);
-  Pitch    = map(P_temp, 0, 1023, -100, 100);
-  Roll     = map(R_temp, 0, 1023, -100, 100);
+  Throttle = map(T_temp, 0, 1022,    100, 200);
+  Yaw      = map(Y_temp, 0, 1022, -100, 100);
+  Pitch    = map(P_temp, 0, 1022, -100, 100);
+  Roll     = map(R_temp, 0, 1022, -100, 100);
   
   TxBuf[0] = Throttle * 10;  // Step By 10, So [0, 100] -> [0, 1000]
   TxBuf[1] = Yaw;
@@ -45,7 +45,7 @@ void loop(){
   TxBuf[3] = Roll;
 
   TxBuf[31] = 0x5A;
-  Serial.println(Throttle);
+  //Serial.println(Throttle);
   radio.write(&TxBuf, sizeof(TxBuf));
 }
 

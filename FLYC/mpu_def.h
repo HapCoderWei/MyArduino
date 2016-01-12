@@ -11,8 +11,14 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 
 // orientation/motion vars
 VectorInt16 gyro;       // [x, y, z]            gyro sensor measurements
+VectorInt16 acc;        // [x, y, z]            acc  sensor measurements
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
+
+const float YAW_OFFSET   = 0.22;
+const float PITCH_OFFSET = 2.81;
+const float ROLL_OFFSET  = -0.17;
+

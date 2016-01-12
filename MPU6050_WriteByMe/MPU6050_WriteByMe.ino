@@ -17,6 +17,9 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+const float YAW_OFFSET   = 0.22;
+const float PITCH_OFFSET = 2.81;
+const float ROLL_OFFSET  = -0.17;
 
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
@@ -50,10 +53,10 @@ void setup() {
   devStatus = mpu.dmpInitialize();
 
   // supply your own gyro offsets here, scaled for min sensitivity
-  mpu.setXGyroOffset(2);
-  mpu.setYGyroOffset(-27);
-  mpu.setZGyroOffset(17);
-  mpu.setZAccelOffset(1533); // I have changed this
+  mpu.setXGyroOffset(-1);
+  mpu.setYGyroOffset(-31);
+  mpu.setZGyroOffset(15);
+  mpu.setZAccelOffset(1534); // I have changed this
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
@@ -118,11 +121,11 @@ void loop() {
       mpu.dmpGetGravity(&gravity, &q);
       mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
       Serial.print("ypr\t");
-      Serial.print(ypr[0] * 180/M_PI);
+      Serial.print(ypr[0] * 180/M_PI - YAW_OFFSET);
       Serial.print("\t");
-      Serial.print(ypr[1] * 180/M_PI);
+      Serial.print(ypr[1] * 180/M_PI - PITCH_OFFSET);
       Serial.print("\t");
-      Serial.println(ypr[2] * 180/M_PI);
+      Serial.println(ypr[2] * 180/M_PI - ROLL_OFFSET);
 
       blinkState = !blinkState;
       digitalWrite(LED_PIN, blinkState);

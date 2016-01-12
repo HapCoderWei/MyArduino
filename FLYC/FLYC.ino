@@ -51,7 +51,8 @@ void loop() {
 
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;
-  Thr -= 80 * diff_acc_z;  // negative feedback for Z axis
+  //Serial.println(diff_acc_z);
+  Thr -= 20 * diff_acc_z;  // negative feedback for Z axis
 
   Yaw = -2 * (gyro.z + exp_angle.yaw/1.2); // the -20 should be the PID_Yaw.D
 

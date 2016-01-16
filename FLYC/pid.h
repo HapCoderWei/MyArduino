@@ -14,8 +14,8 @@ struct PID {
 };
 PID PID_Motor;
 
-float diff_acc_z; // save diff of accl in Z
+float diff_acc_z, last_yaw = 0.0; // save diff of accl in Z
 float throttle;   // save throttle receive from NRF24l01
-float Thr = 0, Rool = 0, Pitch = 0, Yaw = 0;
+float Thr = 0, Roll = 0, Pitch = 0, Yaw = 0;
 
 

@@ -10,7 +10,7 @@ VectorFloat diff_angle;
 struct PID {
   float P = 1.4;
   float I = 0.0;
-  float D = 1.1;
+  float D = 0.0;
 };
 PID PID_Motor;
 

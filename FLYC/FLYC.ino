@@ -64,8 +64,8 @@ void loop() {
 //  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
   // +-model
-  Motor[0] = Thr - Pitch        + Yaw;
-  Motor[2] = Thr + Pitch        + Yaw;
+  Motor[0] = Thr - Pitch;//        + Yaw;
+  Motor[2] = Thr + Pitch ;//       + Yaw;
   Motor[1] = Thr         + Roll - Yaw;
   Motor[3] = Thr         - Roll - Yaw;
   

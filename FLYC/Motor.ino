@@ -11,9 +11,9 @@ void writeMotor() {
   motor[3].writeMicroseconds(Motor[3]);
 }
 void PIDSet() {
-  PID_Motor.P = 0.7;
+  PID_Motor.P = 1.35;
   PID_Motor.I = 0.0;
-  PID_Motor.D = 0.05;
+  PID_Motor.D = 0.55;
 }
 void printMotor() {
   Serial.print("Motor[0-3]: ");

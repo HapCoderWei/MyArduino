@@ -30,12 +30,12 @@ void setup() {
 }
 void loop() {
   getMPUData();
-  Serial.print("ypr\t");
-  Serial.print(q_angle.yaw);
-  Serial.print("\t");
-  Serial.print(q_angle.pitch);
-  Serial.print("\t");
-  Serial.println(q_angle.roll);
+//  Serial.print("ypr\t");
+//  Serial.print(q_angle.yaw);
+//  Serial.print("\t");
+//  Serial.print(q_angle.pitch);
+//  Serial.print("\t");
+//  Serial.println(q_angle.roll);
   if (radio.available()) {
     getExp();
   }

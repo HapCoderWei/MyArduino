@@ -16,9 +16,9 @@
 #define LED_PIN 13 // (Arduino is 13) 
 #define g     9.27f
 
-unsigned long interval=1000; // the time we need to wait
-unsigned long previousMillis=0; // millis() returns an unsigned long.
-int times = 0;
+//unsigned long interval=1000; // the time we need to wait
+//unsigned long previousMillis=0; // millis() returns an unsigned long.
+//int times = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -31,17 +31,22 @@ void setup() {
   // configure LED for output
   pinMode(LED_PIN, OUTPUT);
   delay(1500);
-  previousMillis = millis();
+  //previousMillis = millis();
 }
 void loop() {
+  // this code is for test how many times this scratch can run in a second
+  // result is 100. Just So So...
+  /*******************************************************************
   unsigned long currentMillis = millis(); // grab current time
   times++;
   if ((unsigned long)(currentMillis - previousMillis) >= interval) {
+    Serial.print("Times value is: ");
     Serial.println(times);
     times = 0;
    // save the "current" time
    previousMillis = millis();
  }
+**********************************************************************/
   getMPUData();
 //  Serial.print("ypr\t");
 //  Serial.print(q_angle.yaw);

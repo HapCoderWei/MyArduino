@@ -13,8 +13,12 @@
 #include <Servo.h>
 #include "motor.h"
 /*********** end of header ************/
-#define LED_PIN 13 // (Arduino is 13)
+#define LED_PIN 13 // (Arduino is 13) 
 #define g     9.27f
+
+unsigned long interval=1000; // the time we need to wait
+unsigned long previousMillis=0; // millis() returns an unsigned long.
+int times = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -27,8 +31,17 @@ void setup() {
   // configure LED for output
   pinMode(LED_PIN, OUTPUT);
   delay(1500);
+  previousMillis = millis();
 }
 void loop() {
+  unsigned long currentMillis = millis(); // grab current time
+  times++;
+  if ((unsigned long)(currentMillis - previousMillis) >= interval) {
+    Serial.println(times);
+    times = 0;
+   // save the "current" time
+   previousMillis = millis();
+ }
   getMPUData();
 //  Serial.print("ypr\t");
 //  Serial.print(q_angle.yaw);
@@ -64,8 +77,8 @@ void loop() {
 //  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
   // +-model
-  Motor[0] = Thr + Pitch        + Yaw;
-  Motor[2] = Thr - Pitch        + Yaw;
+  Motor[0] = Thr + Pitch  ;//      + Yaw;
+  Motor[2] = Thr - Pitch   ;//     + Yaw;
   Motor[1] = Thr         + Roll - Yaw;
   Motor[3] = Thr         - Roll - Yaw;
   

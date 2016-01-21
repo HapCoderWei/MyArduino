@@ -49,7 +49,7 @@ void loop() {
 **********************************************************************/
   getMPUData();
 //  Serial.print("ypr\t");
-//  Serial.print(q_angle.yaw);
+  Serial.println(q_angle.yaw);
 //  Serial.print("\t");
 //  Serial.print(q_angle.pitch);
 //  Serial.print("\t");

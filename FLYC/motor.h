@@ -1,2 +1,2 @@
 Servo motor[4];
-float Motor[4];
+int Motor[4];

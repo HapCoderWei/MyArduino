@@ -10,6 +10,12 @@ void writeMotor() {
   motor[2].writeMicroseconds(Motor[2]);
   motor[3].writeMicroseconds(Motor[3]);
 }
+void writeAllMotor(int value) {
+  motor[0].writeMicroseconds(value);
+  motor[1].writeMicroseconds(value);
+  motor[2].writeMicroseconds(value);
+  motor[3].writeMicroseconds(value);
+}
 void PIDSet() {
   PID_Motor.P = 1.05; //1.35 is roll OK
   PID_Motor.I = 0.0;

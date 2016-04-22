@@ -9,12 +9,16 @@
 
 int T_temp, P_temp, R_temp, Y_temp, i;
 int Throttle, Pitch, Roll, Yaw;
+int Button = 9; //连接开关到D9。
 
 RF24 radio(7, 8);
 const byte rxAddr[6] = "00001";
 unsigned int TxBuf[32] = {0};
 
 void setup(){
+  Serial.begin(115200);
+  pinMode(Button,INPUT); //按钮端子作为输入
+  
   radio.begin();
   radio.setRetries(15, 15);
   radio.openWritingPipe(rxAddr);
@@ -44,8 +48,19 @@ void loop(){
   TxBuf[2] = Pitch;
   TxBuf[3] = Roll;
 
-  TxBuf[31] = 0x5A;
+  if(digitalRead(Button) == HIGH) {
+    delay(10);
+    if(digitalRead(Button) == HIGH) {
+      TxBuf[4] = 88;
+    }
+  }  
+  else {
+      TxBuf[4] = 11;
+  }
+  
   //Serial.println(Throttle);
   radio.write(&TxBuf, sizeof(TxBuf));
+  
+  Serial.println(TxBuf[4]);
 }
 

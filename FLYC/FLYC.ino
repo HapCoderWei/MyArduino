@@ -49,7 +49,7 @@ void loop() {
 **********************************************************************/
   getMPUData();
 //  Serial.print("ypr\t");
-  Serial.println(q_angle.yaw);
+//  Serial.println(q_angle.yaw);
 //  Serial.print("\t");
 //  Serial.print(q_angle.pitch);
 //  Serial.print("\t");
@@ -92,7 +92,7 @@ void loop() {
     if(Motor[i] > 2000) Motor[i] = 2000;
   }
   writeMotor();
-  //printMotor();
+  printMotor();
 }
 
 

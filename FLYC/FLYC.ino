@@ -21,8 +21,8 @@
 //int times = 0;
 
 void setup() {
-  Serial.begin(115200);
-  while (!Serial);
+//  Serial.begin(115200);
+//  while (!Serial);
   
   mpuSet();
   nrfSet();
@@ -82,8 +82,8 @@ void loop() {
 //  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
   // +-model
-  Motor[0] = Thr + Pitch  ;//      + Yaw;
-  Motor[2] = Thr - Pitch   ;//     + Yaw;
+  Motor[0] = Thr + Pitch       + Yaw;
+  Motor[2] = Thr - Pitch       + Yaw;
   Motor[1] = Thr         + Roll - Yaw;
   Motor[3] = Thr         - Roll - Yaw;
   
@@ -92,7 +92,7 @@ void loop() {
     if(Motor[i] > 2000) Motor[i] = 2000;
   }
   writeMotor();
-  printMotor();
+ // printMotor();
 }
 
 

@@ -17,9 +17,9 @@ void writeAllMotor(int value) {
   motor[3].writeMicroseconds(value);
 }
 void PIDSet() {
-  PID_Motor.P = 1.05; //1.35 is roll OK
+  PID_Motor.P = 1.35; //1.35 is roll OK
   PID_Motor.I = 0.0;
-  PID_Motor.D = 1.55;   //  0.55 is roll OK
+  PID_Motor.D = 0.55;   //  0.55 is roll OK
 }
 void printMotor() {
   Serial.print("Motor[0-3]: ");

@@ -68,6 +68,14 @@ void loop() {
   Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
   Yaw   = PID_Motor.P * diff_angle.z - PID_Motor.D * gyro.z;
 
+//
+//  Serial.print("Pitch: ");
+//  Serial.print(Pitch);
+//  Serial.print("\tRoll: ");
+//  Serial.print(Roll);
+//  Serial.print("\tYaw: ");
+//  Serial.println(Yaw);
+
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;
   //Serial.println(diff_acc_z);

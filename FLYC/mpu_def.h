@@ -19,6 +19,6 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 
 const float YAW_OFFSET   = 0.22;
-const float PITCH_OFFSET = 0.0;//2.81;
+const float PITCH_OFFSET = 2.81;
 const float ROLL_OFFSET  = -0.17;
 

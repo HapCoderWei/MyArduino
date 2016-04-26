@@ -61,6 +61,13 @@ void getGyro(VectorInt16 *gyro, int *data) {
   gyro->x = data[0];
   gyro->y = data[1];
   gyro->z = data[2];
+//
+//  Serial.print("Gyro\t");
+//  Serial.print(data[0]);
+//  Serial.print("\t");
+//  Serial.print(data[1]);
+//  Serial.print("\t");
+//  Serial.println(data[2]);
 }
 void getAccel(VectorInt16 *acc, int *data) {
   acc->x = data[0];
@@ -82,8 +89,9 @@ void getAngle() {
       getAccel( &acc, data);
       
       mpu.dmpGetQuaternion(&q, fifoBuffer);
-      mpu.dmpGetGravity(&gravity, &q);
-      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+//      mpu.dmpGetGravity(&gravity, &q);
+//      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+      mpu.dmpGetEuler(ypr, &q);
       
       q_angle.yaw   = ypr[0] * 180/M_PI - YAW_OFFSET;
       q_angle.pitch = ypr[1] * 180/M_PI - PITCH_OFFSET;

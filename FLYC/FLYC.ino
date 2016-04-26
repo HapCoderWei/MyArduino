@@ -49,7 +49,7 @@ void loop() {
 **********************************************************************/
   getMPUData();
 //  Serial.print("ypr\t");
-//  Serial.println(q_angle.yaw);
+//  Serial.print(q_angle.yaw);
 //  Serial.print("\t");
 //  Serial.print(q_angle.pitch);
 //  Serial.print("\t");
@@ -61,14 +61,13 @@ void loop() {
   diff_angle.x  = exp_angle.roll  - q_angle.roll;
   diff_angle.z  = exp_angle.yaw   - q_angle.yaw;
   // get rid of the gravity component (+1g = +8192 in standard DMP FIFO packet, sensitivity is 2g)
-  diff_acc_z  = (acc.z / 8192) * g;   // difference of acclerate in Z
+  // diff_acc_z  = (acc.z / 8192) * g;   // difference of acclerate in Z
 
   // PID Algorithms
   Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
   Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
   Yaw   = PID_Motor.P * diff_angle.z - PID_Motor.D * gyro.z;
 
-//
 //  Serial.print("Pitch: ");
 //  Serial.print(Pitch);
 //  Serial.print("\tRoll: ");
@@ -90,10 +89,10 @@ void loop() {
 //  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
   // +-model
-  Motor[0] = Thr + Pitch       + Yaw;
-  Motor[2] = Thr - Pitch       + Yaw;
-  Motor[1] = Thr         + Roll - Yaw;
-  Motor[3] = Thr         - Roll - Yaw;
+  Motor[0] = Thr + Pitch        + Yaw;
+  Motor[2] = Thr - Pitch        + Yaw;
+  Motor[1] = Thr         - Roll - Yaw;
+  Motor[3] = Thr         + Roll - Yaw;
   
   for(int i = 0; i < 4; i++) {
     if(Motor[i] < 1000) Motor[i] = 1000;

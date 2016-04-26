@@ -98,7 +98,13 @@ void loop() {
     if(Motor[i] < 1000) Motor[i] = 1000;
     if(Motor[i] > 2000) Motor[i] = 2000;
   }
-  writeMotor();
+
+  if(FLY_ENABLE == 0x5A) {
+    writeMotor();
+  } else {
+    writeAllMotor(1000);
+  }
+  
  // printMotor();
 }
 

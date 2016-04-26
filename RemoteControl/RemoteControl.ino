@@ -6,10 +6,11 @@
 #define YAW_PIN   3
 #define PITCH_PIN 1
 #define ROLL_PIN  0
+#define Button    9
 
 int T_temp, P_temp, R_temp, Y_temp, i;
 int Throttle, Pitch, Roll, Yaw;
-int Button = 9; //连接开关到D9。
+//int Button = 9; //连接开关到D9。
 
 RF24 radio(7, 8);
 const byte rxAddr[6] = "00001";
@@ -24,7 +25,20 @@ void setup(){
   radio.openWritingPipe(rxAddr);
   
   radio.stopListening();
-  //Serial.begin(9600);
+  
+  T_temp = 100;  P_temp = 100;
+  while(T_temp > 50 || P_temp > 50) {
+    T_temp = analogRead(THRO_PIN);
+    P_temp = analogRead(PITCH_PIN);
+    Serial.print(T_temp);
+    Serial.print("\t");
+    Serial.println(P_temp);
+  } // To Unlock: Thro minimal and Roll minimal
+  
+  TxBuf[0] = 1050;  // Step By 10, So [0, 100] -> [0, 1000]
+  TxBuf[1] = 0;  TxBuf[2] = 0;  
+  TxBuf[3] = 0;  TxBuf[4] = 0x5A;
+  radio.write(&TxBuf, sizeof(TxBuf));
 }
 void loop(){
   T_temp = 0;  Y_temp = 0;
@@ -38,7 +52,7 @@ void loop(){
   T_temp /= 3;  Y_temp /= 3;
   P_temp /= 3;  R_temp /= 3;
   
-  Throttle = map(T_temp, 0, 1022,    100, 200);
+  Throttle = map(T_temp, 0, 1022,    105, 200);
   Yaw        = map(Y_temp, 0, 1022, -100, 100);
   Pitch      = map(P_temp, 0, 1022, -100, 100);
   Roll        = map(R_temp, 0, 1022, -100, 100);
@@ -51,16 +65,16 @@ void loop(){
   if(digitalRead(Button) == HIGH) {
     delay(10);
     if(digitalRead(Button) == HIGH) {
-      TxBuf[4] = 88;
+      TxBuf[4] = 0;  // Halt!
     }
   }  
   else {
-      TxBuf[4] = 11;
+      TxBuf[4] = 0x5A;  // Enable Aircraft
   }
   
   //Serial.println(Throttle);
   radio.write(&TxBuf, sizeof(TxBuf));
   
-  Serial.println(TxBuf[4]);
+  //Serial.println(TxBuf[4]);
 }
 

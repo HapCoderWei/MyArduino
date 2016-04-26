@@ -14,10 +14,11 @@ void getExp() {
   exp_angle.pitch = pitch / 100.0 * Angle_Max;
   roll  = recBuf[3];
   exp_angle.roll  = roll  / 100.0 * Angle_Max;
-
+  FLY_ENABLE = recBuf[4];
+  
   // Check for Special byte TxBuf[31]
   //Serial.println(recBuf[31]);
-  if(recBuf[4] == 88) {
+  if(recBuf[4] == 0) {
     //Serial.println(recBuf[4]);
 //    writeAllMotor(1100);
 //    delay(2300);

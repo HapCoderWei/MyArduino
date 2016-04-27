@@ -21,8 +21,8 @@
 //int times = 0;
 
 void setup() {
-//  Serial.begin(115200);
-//  while (!Serial);
+  Serial.begin(115200);
+  while (!Serial);
   
   mpuSet();
   nrfSet();
@@ -66,14 +66,14 @@ void loop() {
   // PID Algorithms
   Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
   Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
-  Yaw   = PID_Motor.P * diff_angle.z - PID_Motor.D * gyro.z;
+  Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
-//  Serial.print("Pitch: ");
-//  Serial.print(Pitch);
-//  Serial.print("\tRoll: ");
-//  Serial.print(Roll);
-//  Serial.print("\tYaw: ");
-//  Serial.println(Yaw);
+  Serial.print("Pitch: ");
+  Serial.print(Pitch);
+  Serial.print("\tRoll: ");
+  Serial.print(Roll);
+  Serial.print("\tYaw: ");
+  Serial.println(Yaw);
 
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;
@@ -89,10 +89,10 @@ void loop() {
 //  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
   // +-model
-  Motor[0] = Thr + Pitch        + Yaw;
-  Motor[2] = Thr - Pitch        + Yaw;
-  Motor[1] = Thr         - Roll - Yaw;
-  Motor[3] = Thr         + Roll - Yaw;
+  Motor[0] = Thr + Pitch        ;//+ Yaw;
+  Motor[2] = Thr - Pitch        ;//+ Yaw;
+  Motor[1] = Thr         - Roll ;//- Yaw;
+  Motor[3] = Thr         + Roll ;//- Yaw;
   
   for(int i = 0; i < 4; i++) {
     if(Motor[i] < 1000) Motor[i] = 1000;

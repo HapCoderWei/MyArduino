@@ -10,14 +10,14 @@
 
 int T_temp, P_temp, R_temp, Y_temp, i;
 int Throttle, Pitch, Roll, Yaw;
-//int Button = 9; //连接开关到D9。
+boolean HALT = false;  // halt flag
 
 RF24 radio(7, 8);
 const byte rxAddr[6] = "00001";
 unsigned int TxBuf[32] = {0};
 
 void setup(){
-  Serial.begin(115200);
+  //Serial.begin(115200);
   pinMode(Button,INPUT); //按钮端子作为输入
   
   radio.begin();
@@ -30,9 +30,9 @@ void setup(){
   while(T_temp > 50 || P_temp > 50) {
     T_temp = analogRead(THRO_PIN);
     P_temp = analogRead(PITCH_PIN);
-    Serial.print(T_temp);
-    Serial.print("\t");
-    Serial.println(P_temp);
+//    Serial.print(T_temp);
+//    Serial.print("\t");
+//    Serial.println(P_temp);
   } // To Unlock: Thro minimal and Roll minimal
   
   TxBuf[0] = 1050;  // Step By 10, So [0, 100] -> [0, 1000]
@@ -65,13 +65,15 @@ void loop(){
   if(digitalRead(Button) == HIGH) {
     delay(10);
     if(digitalRead(Button) == HIGH) {
-      TxBuf[4] = 0;  // Halt!
+      //TxBuf[4] = 0;  // Halt!
+      HALT = true;
     }
   }  
   else {
-      TxBuf[4] = 0x5A;  // Enable Aircraft
+      //TxBuf[4] = 0x5A;  // Enable Aircraft
+      //HALT = 0;
   }
-  
+  TxBuf[4] = (HALT == true)?0:0x5A;
   //Serial.println(Throttle);
   radio.write(&TxBuf, sizeof(TxBuf));
   

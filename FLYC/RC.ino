@@ -18,14 +18,14 @@ void getExp() {
   
   // Check for Special byte TxBuf[31]
   //Serial.println(recBuf[31]);
-  if(recBuf[4] == 0) {
-    //Serial.println(recBuf[4]);
-//    writeAllMotor(1100);
-//    delay(2300);
-    
-    while(1) {
-      writeAllMotor(1000);
-    }
-  }
+//  if(recBuf[4] == 0) {
+//    //Serial.println(recBuf[4]);
+////    writeAllMotor(1100);
+////    delay(2300);
+//    
+//    while(1) {
+//      writeAllMotor(1000);
+//    }
+//  }
 }
 

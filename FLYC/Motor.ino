@@ -17,9 +17,9 @@ void writeAllMotor(int value) {
   motor[3].writeMicroseconds(value);
 }
 void PIDSet() {
-  PID_Motor.P = 1.35; //    1.35 is roll OK
+  PID_Motor.P = 3; //    1.35 is roll OK
   PID_Motor.I = 0.0;
-  PID_Motor.D = 0.55;   //  0.55 is roll OK
+  PID_Motor.D = 50.0;   //  0.55 is roll OK
 
   PID_Yaw .P = 1.0;
   PID_Yaw .I = 0.0;

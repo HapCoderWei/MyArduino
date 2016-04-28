@@ -10,8 +10,16 @@ uint16_t fifoCount;     // count of all bytes currently in FIFO
 uint8_t fifoBuffer[64]; // FIFO storage buffer
 
 // orientation/motion vars
-VectorInt16 gyro;       // [x, y, z]            gyro sensor measurements
-VectorInt16 acc;        // [x, y, z]            acc  sensor measurements
+struct GYRO_Def {
+  float x = 0.0;
+  float y = 0.0;
+  float z = 0.0;
+} gyro;       // [x, y, z]            gyro sensor measurements
+struct ACCL_Def {
+  float x = 0.0;
+  float y = 0.0;
+  float z = 0.0;
+} acc;        // [x, y, z]            acc  sensor measurements
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector

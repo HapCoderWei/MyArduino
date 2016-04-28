@@ -57,10 +57,13 @@ void mpuSet() {
 //      Serial.println(F(")"));
   }
 }
-void getGyro(VectorInt16 *gyro, int *data) {
-  gyro->x = data[0];
-  gyro->y = data[1];
-  gyro->z = data[2];
+void getGyro(struct GYRO_Def *gyro, int *data) {
+//  gyro->x = abs((float)data[0]) / 16.4;
+//  gyro->y = abs((float)data[1]) / 16.4;
+//  gyro->z = abs((float)data[2]) / 16.4;
+  gyro->x = (float)data[0] / 16.4;
+  gyro->y = (float)data[1] / 16.4;
+  gyro->z = (float)data[2] / 16.4;
 //
 //  Serial.print("Gyro\t");
 //  Serial.print(data[0]);
@@ -69,10 +72,10 @@ void getGyro(VectorInt16 *gyro, int *data) {
 //  Serial.print("\t");
 //  Serial.println(data[2]);
 }
-void getAccel(VectorInt16 *acc, int *data) {
-  acc->x = data[0];
-  acc->y = data[1];
-  acc->z = data[2];
+void getAccel(struct ACCL_Def *acc, int *data) {
+  acc->x = (float)data[0] / 8192.0 * g;
+  acc->y = (float)data[1] / 8192.0 * g;
+  acc->z = (float)data[2] / 8192.0 * g;
 }
 void getAngle() {
   int16_t data[3];

@@ -66,14 +66,22 @@ void loop() {
   // PID Algorithms
   Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
   Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
+  
   Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
-  Serial.print("Pitch: ");
-  Serial.print(Pitch);
-  Serial.print("\tRoll: ");
-  Serial.print(Roll);
-  Serial.print("\tYaw: ");
-  Serial.println(Yaw);
+//  Serial.print("Pitch: ");
+//  Serial.print(Pitch);
+//  Serial.print("\tRoll: ");
+//  Serial.print(Roll);
+//  Serial.print("\tYaw: ");
+//  Serial.println(Yaw);
+
+  Serial.print("gyro.x: ");
+  Serial.print(gyro.x);
+  Serial.print("\tgyro.y: ");
+  Serial.print(gyro.y);
+  Serial.print("\tgyro.z: ");
+  Serial.println(gyro.z);
 
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;

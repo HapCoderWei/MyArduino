@@ -16,7 +16,7 @@
 #define LED_PIN 13 // (Arduino is 13) 
 #define g     9.27f
 
-//unsigned long interval=1000; // the time we need to wait
+//const long interval=1000; // the time we need to wait
 //unsigned long previousMillis=0; // millis() returns an unsigned long.
 //int times = 0;
 
@@ -47,13 +47,8 @@ void loop() {
    previousMillis = millis();
  }
 **********************************************************************/
-  getMPUData();
-//  Serial.print("ypr\t");
-//  Serial.print(q_angle.yaw);
-//  Serial.print("\t");
-//  Serial.print(q_angle.pitch);
-//  Serial.print("\t");
-//  Serial.println(q_angle.roll);
+  getMPUData();    // SerialPrint_q_angle();
+
   if (radio.available()) {
     getExp();
   }
@@ -70,20 +65,6 @@ void loop() {
   Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
   
   Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
-
-//  Serial.print("Pitch: ");
-//  Serial.print(Pitch);
-//  Serial.print("\tRoll: ");
-//  Serial.print(Roll);
-//  Serial.print("\tYaw: ");
-//  Serial.println(Yaw);
-
-  Serial.print("gyro.x: ");
-  Serial.print(gyro.x);
-  Serial.print("\tgyro.y: ");
-  Serial.print(gyro.y);
-  Serial.print("\tgyro.z: ");
-  Serial.println(gyro.z);
 
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;

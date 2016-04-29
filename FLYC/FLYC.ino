@@ -64,8 +64,10 @@ void loop() {
   // diff_acc_z  = (acc.z / 8192) * g;   // difference of acclerate in Z
 
   // PID Algorithms
-  Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
-  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
+//  Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
+//  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
+  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
+  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
   
   Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
@@ -90,21 +92,15 @@ void loop() {
 
   //Yaw = -2 * (gyro.z - last_yaw + exp_angle.yaw/1.2); // the -20 should be the PID_Yaw.D
   //last_yaw = q_angle.yaw;
-//  // Output the throttle to motors   // X-model
-//  Motor[2] = (int16_t)(Thr - Pitch - Rool - Yaw );    //M3
-//  Motor[0] = (int16_t)(Thr + Pitch + Rool - Yaw );    //M1
-//  Motor[3] = (int16_t)(Thr - Pitch + Rool + Yaw );    //M4
-//  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
-
-  // +-model
-  Motor[0] = Thr + Pitch        ;//+ Yaw;
-  Motor[2] = Thr - Pitch        ;//+ Yaw;
-  Motor[1] = Thr         - Roll ;//- Yaw;
-  Motor[3] = Thr         + Roll ;//- Yaw;
+  // Output the throttle to motors    + -model
+  Motor[0] = (int16_t)(Thr + Pitch        );//+ Yaw);
+  Motor[2] = (int16_t)(Thr - Pitch        );//+ Yaw);
+  Motor[1] = (int16_t)(Thr         - Roll );//- Yaw);
+  Motor[3] = (int16_t)(Thr         + Roll );//- Yaw);
   
   for(int i = 0; i < 4; i++) {
     if(Motor[i] < 1000) Motor[i] = 1000;
-    if(Motor[i] > 2000) Motor[i] = 2000;
+    else if(Motor[i] > 2000) Motor[i] = 2000;
   }
 
   if(FLY_ENABLE == 0x5A) {
@@ -115,5 +111,9 @@ void loop() {
   
  // printMotor();
 }
+//  Motor[2] = (int16_t)(Thr - Pitch - Rool - Yaw );    //M3
+//  Motor[0] = (int16_t)(Thr + Pitch + Rool - Yaw );    //M1
+//  Motor[3] = (int16_t)(Thr - Pitch + Rool + Yaw );    //M4
+//  Motor[1] = (int16_t)(Thr + Pitch - Rool + Yaw );    //M2
 
 

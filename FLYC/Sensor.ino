@@ -105,8 +105,7 @@ void getMPUData() {
   if (!dmpReady) return;
 
   // wait for MPU interrupt or extra packet(s) available
-  while (!mpuInterrupt && fifoCount < packetSize)
-  ;
+  while (!mpuInterrupt && fifoCount < packetSize) ;
 
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();

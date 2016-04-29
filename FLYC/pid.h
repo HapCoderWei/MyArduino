@@ -11,6 +11,10 @@ struct PID {
   float P = 1.4;
   float I = 0.0;
   float D = 0.0;
+
+  float dState; // Last position input for calculating derivative, I don't use it
+  float iState; // Integrator state;
+  float iMax, iMin;  // Maximum and minimum allowable integrator state
 };
 PID PID_Motor;
 PID PID_Yaw;

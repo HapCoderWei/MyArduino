@@ -61,10 +61,12 @@ void loop() {
   // PID Algorithms
 //  Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
 //  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
-  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
-  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
+//  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
+//  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
+  Pitch = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.y, gyro.y );
+  Roll  = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.x, gyro.x );
   
-  Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
+  //Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
   //Thr = 0.001 * throttle * throttle;
   Thr = throttle;
@@ -92,6 +94,9 @@ void loop() {
   
  // printMotor();
 }
+
+
+
 //  Motor[2] = (int16_t)(Thr - Pitch - Rool - Yaw );    //M3
 //  Motor[0] = (int16_t)(Thr + Pitch + Rool - Yaw );    //M1
 //  Motor[3] = (int16_t)(Thr - Pitch + Rool + Yaw );    //M4

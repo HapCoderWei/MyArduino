@@ -14,6 +14,14 @@ void PIDSet() {
   PID_Yaw.iState = 0.0;
   PID_Yaw.iMax = 20;
   PID_Yaw.iMin = -20;
+
+  PID_GYRO .P = 2.5;
+  PID_GYRO .I = 0.0;
+  PID_GYRO .D = 0.0;
+  PID_GYRO.dState = 0.0;
+  PID_GYRO.iState = 0.0;
+  PID_GYRO.iMax = 20;
+  PID_GYRO.iMin = -20;
 }
 float UpdatePID(struct PID *pid, float error, float deravitive) {
   float pTerm, dTerm, iTerm;
@@ -27,6 +35,22 @@ float UpdatePID(struct PID *pid, float error, float deravitive) {
   iTerm = pid->I * pid->iState;
   // Calculate the deravitive term
   dTerm = pid->D * deravitive;
+
+  return pTerm + iTerm - dTerm;
+}
+float UpdatePID_GYRO(struct PID *pid, float error, float now_position) {
+  float pTerm, dTerm, iTerm;
+  // Calculate the proportional term
+  pTerm = pid->P * error;
+  // Calculate the integral state with appropriate limiting
+  pid->iState += error;
+  if(pid->iState > pid->iMax) pid->iState = pid->iMax;
+  else if(pid->iState < pid->iMin) pid->iState = pid->iMin;
+  // Calculate the integral term
+  iTerm = pid->I * pid->iState;
+  // Calculate the deravitive term
+  dTerm = pid->D * (now_position - pid->dState);
+  pid->dState = now_position;
 
   return pTerm + iTerm - dTerm;
 }

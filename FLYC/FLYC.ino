@@ -21,8 +21,8 @@
 //int times = 0;
 
 void setup() {
-  Serial.begin(115200);
-  while (!Serial);
+//  Serial.begin(115200);
+//  while (!Serial);
   
   mpuSet();
   nrfSet();
@@ -63,6 +63,7 @@ void loop() {
 //  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
   Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
   Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
+  
 //  Pitch = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.y, gyro.y );
 //  Roll  = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.x, gyro.x );
   

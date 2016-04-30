@@ -4,8 +4,8 @@ void PIDSet() {
   PID_Motor.D = 50.0;   //  0.55 is roll OK
   PID_Motor.dState = 0.0;
   PID_Motor.iState = 0.0;
-  PID_Motor.iMax = 200;
-  PID_Motor.iMin = -200;
+  PID_Motor.iMax = 50;  // 5 percent is OK
+  PID_Motor.iMin = -50;
 
   PID_Yaw .P = 1.0;
   PID_Yaw .I = 0.0;

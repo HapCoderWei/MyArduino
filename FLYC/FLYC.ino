@@ -16,7 +16,7 @@
 #define LED_PIN 13 // (Arduino is 13) 
 #define g     9.27f
 
-//const long interval=1000; // the time we need to wait
+//const unsigned long interval=1000; // the time we need to wait
 //unsigned long previousMillis=0; // millis() returns an unsigned long.
 //int times = 0;
 
@@ -35,12 +35,12 @@ void setup() {
 }
 void loop() {
   // this code is for test how many times this scratch can run in a second
-  // result is 100. Just So So...
+  // result is 100. Just So So... The real runing time is about 3.8ms once!
   /*******************************************************************
   unsigned long currentMillis = millis(); // grab current time
   times++;
-  if ((unsigned long)(currentMillis - previousMillis) >= interval) {
-    Serial.print("Times value is: ");
+  if ((currentMillis - previousMillis) >= interval) {
+    //Serial.print("Times value is: ");
     Serial.println(times);
     times = 0;
    // save the "current" time
@@ -61,10 +61,10 @@ void loop() {
   // PID Algorithms
 //  Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
 //  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
-//  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
-//  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
-  Pitch = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.y, gyro.y );
-  Roll  = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.x, gyro.x );
+  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
+  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
+//  Pitch = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.y, gyro.y );
+//  Roll  = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.x, gyro.x );
   
   //Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 

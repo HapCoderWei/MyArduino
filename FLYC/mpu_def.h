@@ -20,6 +20,16 @@ struct ACCL_Def {
   float y = 0.0;
   float z = 0.0;
 } acc;        // [x, y, z]            acc  sensor measurements
+int16_t ax, ay, az;
+int16_t gx, gy, gz;
+float    base_x_gyro = 0;
+float    base_y_gyro = 0;
+float    base_z_gyro = 0;
+float    base_x_accel = 0;
+float    base_y_accel = 0;
+float    base_z_accel = 0;
+float GYRO_FACTOR;
+float ACCEL_FACTOR;
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector

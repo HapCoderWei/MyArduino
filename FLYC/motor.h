@@ -1,2 +1,2 @@
 Servo motor[4];
-int Motor[4];
+uint16_t Motor[4];

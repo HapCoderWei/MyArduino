@@ -29,8 +29,9 @@ float UpdatePID(struct PID *pid, float error, float deravitive) {
   pTerm = pid->P * error;
   // Calculate the integral state with appropriate limiting
   pid->iState += error;
-  if(pid->iState > pid->iMax) pid->iState = pid->iMax;
-  else if(pid->iState < pid->iMin) pid->iState = pid->iMin;
+  pid->iState = constrain(pid->iState, pid->iMin, pid->iMax);
+//  if(pid->iState > pid->iMax) pid->iState = pid->iMax;
+//  else if(pid->iState < pid->iMin) pid->iState = pid->iMin;
   // Calculate the integral term
   iTerm = pid->I * pid->iState;
   // Calculate the deravitive term

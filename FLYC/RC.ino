@@ -15,17 +15,5 @@ void getExp() {
   roll  = recBuf[3];
   exp_angle.roll  = roll  / 100.0 * Angle_Max;
   FLY_ENABLE = recBuf[4];
-  
-  // Check for Special byte TxBuf[31]
-  //Serial.println(recBuf[31]);
-//  if(recBuf[4] == 0) {
-//    //Serial.println(recBuf[4]);
-////    writeAllMotor(1100);
-////    delay(2300);
-//    
-//    while(1) {
-//      writeAllMotor(1000);
-//    }
-//  }
 }
 

@@ -13,7 +13,7 @@
 #include <Servo.h>
 #include "motor.h"
 /*********** end of header ************/
-#define LOOP_TIME  10000
+#define LOOP_TIME  10000  // 10000 us = 10ms one cycle time
 #define g     9.27f
 
 unsigned long startLoop = 0;
@@ -76,7 +76,8 @@ void loop() {
 
   while ((micros() - startLoop) < LOOP_TIME)
   {
-    
+    // delay for a accurate cycle time.
+    // 100 times per second
   } 
   loopTime =  micros() - startLoop; //Calculating loop_time to calculate frequency
   

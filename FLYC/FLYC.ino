@@ -13,74 +13,57 @@
 #include <Servo.h>
 #include "motor.h"
 /*********** end of header ************/
-#define LED_PIN 13 // (Arduino is 13) 
+#define LOOP_TIME  10000  // 10000 us = 10ms one cycle time
 #define g     9.27f
 
-//const unsigned long interval=1000; // the time we need to wait
-//unsigned long previousMillis=0; // millis() returns an unsigned long.
-//int times = 0;
+unsigned long startLoop = 0;
+unsigned long loopTime = 1;
+unsigned int freq = 0;
 
 void setup() {
-//  Serial.begin(115200);
-//  while (!Serial);
+  Serial.begin(115200);
   
   mpuSet();
   nrfSet();
   motorSet();
   PIDSet();
-  // configure LED for output
-  pinMode(LED_PIN, OUTPUT);
+
+  calibrate_sensors();
   delay(1500);
-  //previousMillis = millis();
 }
 void loop() {
   // this code is for test how many times this scratch can run in a second
   // result is 100. Just So So... The real runing time is about 3.8ms once!
-  /*******************************************************************
-  unsigned long currentMillis = millis(); // grab current time
-  times++;
-  if ((currentMillis - previousMillis) >= interval) {
-    //Serial.print("Times value is: ");
-    Serial.println(times);
-    times = 0;
-   // save the "current" time
-   previousMillis = millis();
- }
-**********************************************************************/
+  /*******************************************************************/
+  startLoop = micros();
+  freq = 1000000/loopTime;
+  //if(freq > 200 )  
+  Serial.println(freq);
+/**********************************************************************/
   getMPUData();    // SerialPrint_q_angle();
-
+ 
   if (radio.available()) {
     getExp();
   }
   diff_angle.y  = exp_angle.pitch - q_angle.pitch;
   diff_angle.x  = exp_angle.roll  - q_angle.roll;
   diff_angle.z  = exp_angle.yaw   - q_angle.yaw;
-  // get rid of the gravity component (+1g = +8192 in standard DMP FIFO packet, sensitivity is 2g)
-  // diff_acc_z  = (acc.z / 8192) * g;   // difference of acclerate in Z
 
   // PID Algorithms
-//  Pitch = PID_Motor.P * diff_angle.y - PID_Motor.D * gyro.y;  // PD, don't use I
-//  Roll  = PID_Motor.P * diff_angle.x - PID_Motor.D * gyro.x;  // PD, don't use I
   Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
   Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
-  
-//  Pitch = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.y, gyro.y );
-//  Roll  = UpdatePID_GYRO( &PID_GYRO, 0 - gyro.x, gyro.x );
-  
+   
   //Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
-  //Thr = 0.001 * throttle * throttle;
   Thr = throttle;
-  
-  //Yaw = -2 * (gyro.z - last_yaw + exp_angle.yaw/1.2); // the -20 should be the PID_Yaw.D
-  //last_yaw = q_angle.yaw;
+
   // Output the throttle to motors    + -model
   Motor[0] = (int16_t)(Thr + Pitch        );//+ Yaw);
   Motor[2] = (int16_t)(Thr - Pitch        );//+ Yaw);
   Motor[1] = (int16_t)(Thr         - Roll );//- Yaw);
   Motor[3] = (int16_t)(Thr         + Roll );//- Yaw);
   
-  for(int i = 0; i < 4; i++) {
+  for(byte i = 0; i < 4; i++) {
     if(Motor[i] < 1000) Motor[i] = 1000;
     else if(Motor[i] > 2000) Motor[i] = 2000;
   }
@@ -90,6 +73,13 @@ void loop() {
   } else {
     writeAllMotor(1000);
   }
+
+  while ((micros() - startLoop) < LOOP_TIME)
+  {
+    // delay for a accurate cycle time.
+    // 100 times per second
+  } 
+  loopTime =  micros() - startLoop; //Calculating loop_time to calculate frequency
   
  // printMotor();
 }

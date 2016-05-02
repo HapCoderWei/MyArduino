@@ -122,13 +122,9 @@ void getMPUData() {
       mpu.dmpGetQuaternion(&q, fifoBuffer);
       mpu.dmpGetGravity(&gravity, &q);
       mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-//      mpu.dmpGetEuler(ypr, &q);
 
       q_angle.yaw   = ypr[0] * 180/M_PI - YAW_OFFSET;
       q_angle.pitch = ypr[1] * 180/M_PI - PITCH_OFFSET;
       q_angle.roll  = ypr[2] * 180/M_PI - ROLL_OFFSET;
-      
-      blinkState = !blinkState;
-      digitalWrite(LED_PIN, blinkState);
   }
 }

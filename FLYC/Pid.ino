@@ -30,14 +30,12 @@ float UpdatePID(struct PID *pid, float error, float deravitive) {
   // Calculate the integral state with appropriate limiting
   pid->iState += error;
   pid->iState = constrain(pid->iState, pid->iMin, pid->iMax);
-//  if(pid->iState > pid->iMax) pid->iState = pid->iMax;
-//  else if(pid->iState < pid->iMin) pid->iState = pid->iMin;
   // Calculate the integral term
   iTerm = pid->I * pid->iState;
   // Calculate the deravitive term
   dTerm = pid->D * deravitive;
 
-  return pTerm + iTerm - dTerm;
+  return ( pTerm + iTerm - dTerm );
 }
 float UpdatePID_GYRO(struct PID *pid, float error, float now_position) {
   float pTerm, dTerm, iTerm;

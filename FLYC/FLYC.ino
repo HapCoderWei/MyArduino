@@ -64,8 +64,9 @@ void loop() {
   Motor[3] = (int16_t)(Thr         + Roll );//- Yaw);
   
   for(byte i = 0; i < 4; i++) {
-    if(Motor[i] < 1000) Motor[i] = 1000;
-    else if(Motor[i] > 2000) Motor[i] = 2000;
+//    if(Motor[i] < 1000) Motor[i] = 1000;
+//    else if(Motor[i] > 2000) Motor[i] = 2000;
+    Motor[i] = constrain( Motor[i], 1000, 2000 );
   }
 
   if(FLY_ENABLE == 0x5A) {

@@ -1,5 +1,4 @@
 MPU6050 mpu;
-bool blinkState = false;
 
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful

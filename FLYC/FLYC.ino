@@ -14,7 +14,7 @@
 #include "motor.h"
 /*********** end of header ************/
 #define LOOP_TIME  10000  // 10000 us = 10ms one cycle time
-#define g     9.27f
+#define g     9.8f
 
 unsigned long startLoop = 0;
 unsigned long loopTime = 1;
@@ -38,10 +38,13 @@ void loop() {
   startLoop = micros();
   freq = 1000000/loopTime;
   //if(freq > 200 )  
-  Serial.println(freq);
+  //Serial.println(freq);
 /**********************************************************************/
   getMPUData();    // SerialPrint_q_angle();
- 
+  Serial.print(q_angle.pitch);
+  Serial.print("\t");
+  Serial.println(gyro.y);
+  
   if (radio.available()) {
     getExp();
   }
@@ -50,8 +53,8 @@ void loop() {
   diff_angle.z  = exp_angle.yaw   - q_angle.yaw;
 
   // PID Algorithms
-  Pitch = UpdatePID( &PID_Motor, exp_angle.pitch - q_angle.pitch, gyro.y );
-  Roll  = UpdatePID( &PID_Motor, exp_angle.roll  - q_angle.roll,  gyro.x );
+  Pitch = UpdatePID( &PID_Motor, ( exp_angle.pitch - q_angle.pitch ), gyro.y );
+  Roll  = UpdatePID( &PID_Motor, ( exp_angle.roll  - q_angle.roll  ), gyro.x );
    
   //Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 

@@ -78,26 +78,23 @@ void mpuSet() {
   }
 }
 void getMPUData() {
+  int16_t data[3];
   // put your main code here, to run repeatedly:
   if (!dmpReady) return;
 
   // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize) {
-     mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-     // Remove offsets and scale gyro data  
-    gyro.x = (gx - base_x_gyro)/GYRO_FACTOR;
-    gyro.y = (gy - base_y_gyro)/GYRO_FACTOR;
-    gyro.z = (gz - base_z_gyro)/GYRO_FACTOR;
-    acc.x = ax; // - base_x_accel;
-    acc.y = ay; // - base_y_accel;
-    acc.z = az; // - base_z_accel;
+//     mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+//     // Remove offsets and scale gyro data  
+//    gyro.x = (gx - base_x_gyro)/GYRO_FACTOR;
+//    //gyro.y = (gy - base_y_gyro)/GYRO_FACTOR;
+//    gyro.y = gy;
+//    gyro.z = (gz - base_z_gyro)/GYRO_FACTOR;
+//    acc.x = ax; // - base_x_accel;
+//    acc.y = ay; // - base_y_accel;
+//    acc.z = az; // - base_z_accel;
   }
-//  Serial.print("accel:\t");
-//  Serial.print(acc.x);
-//  Serial.print("\t");
-//  Serial.print(acc.y);
-//  Serial.print("\t");
-//  Serial.println(acc.z);
+  //SerialPrint_Gyro();
 
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();
@@ -122,6 +119,10 @@ void getMPUData() {
       mpu.dmpGetQuaternion(&q, fifoBuffer);
       mpu.dmpGetGravity(&gravity, &q);
       mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+      mpu.dmpGetGyro(data, fifoBuffer);  // data[0] = x, data[1] = y, data[2] = z
+      gyro.x = data[0] / 16.4;
+      gyro.y = data[1] / 16.4;
+      gyro.z = data[2] / 16.4;
 
       q_angle.yaw   = ypr[0] * 180/M_PI - YAW_OFFSET;
       q_angle.pitch = ypr[1] * 180/M_PI - PITCH_OFFSET;

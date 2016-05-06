@@ -1,7 +1,7 @@
 void PIDSet() {
   PID_Motor.P = 0.8; //    1.35 is roll OK
   PID_Motor.I = 0.0;
-  PID_Motor.D = 3.2;   //  < 3.0   //0.55 is roll OK
+  PID_Motor.D = 0.68;   //  < 3.0   //0.55 is roll OK
   PID_Motor.dState = 0.0;
   PID_Motor.iState = 0.0;
   PID_Motor.iMax = 50;  // 5 percent is OK

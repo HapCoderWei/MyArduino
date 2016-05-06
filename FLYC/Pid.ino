@@ -1,7 +1,7 @@
 void PIDSet() {
-  PID_Motor.P = 0.8; //    1.35 is roll OK
-  PID_Motor.I = 0.0;
-  PID_Motor.D = 0.68;   //  < 3.0   //0.55 is roll OK
+  PID_Motor.P = 0.7; //    1.35 is roll OK
+  PID_Motor.I = 0.00;
+  PID_Motor.D = 11.4;    //0.55 is roll OK
   PID_Motor.dState = 0.0;
   PID_Motor.iState = 0.0;
   PID_Motor.iMax = 50;  // 5 percent is OK
@@ -35,7 +35,7 @@ float UpdatePID(struct PID *pid, float error, float deravitive) {
   // Calculate the deravitive term
   dTerm = pid->D * deravitive;
 
-  return ( pTerm + iTerm - dTerm );
+  return ( pTerm + iTerm + dTerm );
 }
 float UpdatePID_GYRO(struct PID *pid, float error, float now_position) {
   float pTerm, dTerm, iTerm;

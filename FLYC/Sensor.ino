@@ -94,7 +94,6 @@ void getMPUData() {
 //    acc.y = ay; // - base_y_accel;
 //    acc.z = az; // - base_z_accel;
   }
-  //SerialPrint_Gyro();
 
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();

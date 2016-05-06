@@ -21,14 +21,14 @@ unsigned long loopTime = 1;
 unsigned int freq = 0;
 
 void setup() {
-  Serial.begin(115200);
+//  Serial.begin(115200);
   
   mpuSet();
   nrfSet();
   motorSet();
   PIDSet();
 
-  calibrate_sensors();
+  //calibrate_sensors();
   delay(1500);
 }
 void loop() {
@@ -41,9 +41,6 @@ void loop() {
   //Serial.println(freq);
 /**********************************************************************/
   getMPUData();    // SerialPrint_q_angle();
-  Serial.print(q_angle.pitch);
-  Serial.print("\t");
-  Serial.println(gyro.y);
   
   if (radio.available()) {
     getExp();

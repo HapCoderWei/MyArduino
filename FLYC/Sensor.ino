@@ -47,25 +47,10 @@ void mpuSet() {
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
-      // turn on the DMP, now that it's ready
-      //Serial.println(F("Enabling DMP..."));
       mpu.setDMPEnabled(true);
-
-      // enable Arduino interrupt detection
-      //Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
       attachInterrupt(0, dmpDataReady, RISING);
       mpuIntStatus = mpu.getIntStatus();
-
-      // set our DMP Ready flag so the main loop() function knows it's okay to use it
-      //Serial.println(F("DMP ready! Waiting for first interrupt..."));
       dmpReady = true;
-
-      uint8_t FS_SEL = 0;
-      uint8_t READ_FS_SEL = mpu.getFullScaleGyroRange();
-//      Serial.print("FS_SEL = ");
-//      Serial.println(READ_FS_SEL);
-      GYRO_FACTOR = 131.0/(FS_SEL + 1);
-      // get expected DMP packet size for later comparison
       packetSize = mpu.dmpGetFIFOPacketSize();
   } else {
       // ERROR!
@@ -82,42 +67,26 @@ void getMPUData() {
   // put your main code here, to run repeatedly:
   if (!dmpReady) return;
 
-  // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize) {
-//     mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-//     // Remove offsets and scale gyro data  
-//    gyro.x = (gx - base_x_gyro)/GYRO_FACTOR;
-//    //gyro.y = (gy - base_y_gyro)/GYRO_FACTOR;
-//    gyro.y = gy;
-//    gyro.z = (gz - base_z_gyro)/GYRO_FACTOR;
-//    acc.x = ax; // - base_x_accel;
-//    acc.y = ay; // - base_y_accel;
-//    acc.z = az; // - base_z_accel;
   }
 
   mpuInterrupt = false;
   mpuIntStatus = mpu.getIntStatus();
-
-  // get current FIFO count
   fifoCount = mpu.getFIFOCount();
 
   if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
-      // reset so we can continue cleanly
       mpu.resetFIFO();
-      //Serial.println(F("FIFO overflow!"));
-
-  // otherwise, check for DMP data ready interrupt (this should happen frequently)
   } else if (mpuIntStatus & 0x02) {
       while (fifoCount < packetSize) 
         fifoCount = mpu.getFIFOCount();
 
-      // read a packet from FIFO
       mpu.getFIFOBytes(fifoBuffer, packetSize);
       fifoCount -= packetSize;
 
       mpu.dmpGetQuaternion(&q, fifoBuffer);
-      mpu.dmpGetGravity(&gravity, &q);
-      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+      getYawPitchRoll(&q, ypr);
+//      mpu.dmpGetGravity(&gravity, &q);
+//      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
       mpu.dmpGetGyro(data, fifoBuffer);  // data[0] = x, data[1] = y, data[2] = z
       gyro.x = data[0] / 16.4;
       gyro.y = data[1] / 16.4;
@@ -128,3 +97,23 @@ void getMPUData() {
       q_angle.roll  = ypr[2] * 180/M_PI - ROLL_OFFSET;
   }
 }
+void getYawPitchRoll(Quaternion *q, float *ypr) 
+{
+  ypr[0] = atan2(2.0*(q->w*q->z + q->x*q->y), 1 - 2.0*(q->y*q->y + q->z*q->z));
+  ypr[1] = safe_asin(2.0*(q->w*q->y - q->x*q->z));
+  ypr[2] = atan2(2.0*(q->w*q->x + q->y*q->z), 1 - 2.0*(q->x*q->x + q->y*q->y));
+}
+float safe_asin(float v) 
+{
+  if(isnan(v)) {
+    return 0.0;
+  }
+  if(v >= 1.0) {
+    return M_PI / 2;
+  }
+  if(v <= -1.0) {
+    return -M_PI / 2;
+  }
+  return asin(v);
+}
+

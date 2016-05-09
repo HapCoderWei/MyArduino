@@ -40,8 +40,8 @@ void loop() {
   //if(freq > 200 )  
   //Serial.println(freq);
 /**********************************************************************/
-  getMPUData();    // SerialPrint_q_angle();
-  
+  getMPUData();      //SerialPrint_q_angle(); SerialPrint_exp_angle();
+  //SerialPrint_Pitch_GyroY();
   if (radio.available()) {
     getExp();
   }
@@ -58,8 +58,8 @@ void loop() {
   Thr = throttle;
 
   // Output the throttle to motors    + -model
-  Motor[0] = (int16_t)(Thr + Pitch        );//+ Yaw);
-  Motor[2] = (int16_t)(Thr - Pitch        );//+ Yaw);
+  Motor[0] = (int16_t)(Thr - Pitch        );//+ Yaw);
+  Motor[2] = (int16_t)(Thr + Pitch        );//+ Yaw);
   Motor[1] = (int16_t)(Thr         - Roll );//- Yaw);
   Motor[3] = (int16_t)(Thr         + Roll );//- Yaw);
   

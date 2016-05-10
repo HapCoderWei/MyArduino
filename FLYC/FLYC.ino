@@ -21,7 +21,7 @@ unsigned long loopTime = 1;
 unsigned int freq = 0;
 
 void setup() {
-//  Serial.begin(115200);
+  //Serial.begin(115200);
   
   mpuSet();
   nrfSet();

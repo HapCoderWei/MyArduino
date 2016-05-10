@@ -8,6 +8,10 @@
 #define ROLL_PIN  0
 #define Button    9
 
+#define P_ENABLE 0x5A
+#define I_ENABLE 0x5A
+#define D_ENABLE 0x5A
+
 int T_temp, P_temp, R_temp, Y_temp, i;
 int Throttle, Pitch, Roll, Yaw;
 boolean HALT = false;  // halt flag
@@ -15,6 +19,21 @@ boolean HALT = false;  // halt flag
 RF24 radio(7, 8);
 const byte rxAddr[6] = "00001";
 unsigned int TxBuf[32] = {0};
+/* ================================================================================================ *
+ | TxBuf[] packet structure:                                                                        |
+ |                                                                                                  |
+ | [Thr]      [Yaw]      [Pitch]     [Roll]  [FLY_ENABLE]  [ P_E ]      [ P ]       [I_E]           |
+ |   0          1           2           3          4          5           6           7             |
+ |                                                                                                  |
+ | [ I ]      [D_E]       [ D ]     [      ]   [GYRO X]    [     ]    [GYRO Y]    [      ]          |
+ |   8          9          10          11         12         13          14          15             |
+ |                                                                                                  |
+ | [GYRO X]  [     ]    [GYRO Y]   [      ]   [GYRO X]  [     ]    [GYRO Y]   [      ]              |
+ |  16         17          18          19         20         21          22          23             | 
+ |                                                                                                  |
+ |  [    ]   [     ]     [GYRO Y]   [      ]   [GYRO X]  [     ]    [GYRO Y]   [      ]             |
+ |  24         25          26          27         28         29          30          31             |
+ * ================================================================================================ */
 
 void setup(){
   //Serial.begin(115200);
@@ -62,6 +81,11 @@ void loop(){
   TxBuf[2] = Pitch;
   TxBuf[3] = Roll;
 
+  if(Serial.available()) {
+    // if readChar() == 'P', then TxBuf[5] = P_ENABLE and TxBuf[6] = readInt(), else TxBuf[5] = 0x00;
+    // if readChar() == 'I', then TxBuf[7] = P_ENABLE and TxBuf[8] = readInt(), else TxBuf[5] = 0x00;
+    // if readChar() == 'D', then TxBuf[9] = P_ENABLE and TxBuf[10] = readInt(), else TxBuf[5] = 0x00;
+  }
   if(digitalRead(Button) == HIGH) {
     delay(10);
     if(digitalRead(Button) == HIGH) {

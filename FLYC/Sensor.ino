@@ -28,6 +28,13 @@ void calibrate_sensors() {
   base_x_accel /= num_readings;
   base_y_accel /= num_readings;
   base_z_accel /= num_readings;
+
+  Serial.print("base_x_gyro: ");
+  Serial.print(base_x_gyro);
+  Serial.print("\t ");
+  Serial.print(base_y_gyro);
+  Serial.print("\t ");
+  Serial.println(base_z_gyro);
 }
 void mpuSet() {
   // put your setup code here, to run once:

@@ -1,5 +1,6 @@
 #include "LCD5110_Basic.h"
-LCD5110 myGLCD(8,9,10,11,12);
+//LCD5110 myGLCD(8,9,10,11,12);
+LCD5110 myGLCD(2,3,4,5,6);
 extern uint8_t SmallFont[];
 void setup()
 {
@@ -16,7 +17,7 @@ void loop()
   myGLCD.print("Use Well",CENTER,24);
   delay (5000);
  
-  /*myGLCD.clrScr();
+  myGLCD.clrScr();
   myGLCD.print("Lower case:", LEFT, 0);
   myGLCD.print("abcdefghijklm", CENTER, 16);
   myGLCD.print("nopqrstuvwxyz", CENTER, 24);
@@ -35,5 +36,5 @@ void loop()
   myGLCD.print("/:;<=>?@[\\]^_`", CENTER, 24);
   myGLCD.print("{|}~", CENTER, 32);
   myGLCD.print("geeetech.com", CENTER, 40);
-  delay (5000);*/
+  delay (5000);
 }

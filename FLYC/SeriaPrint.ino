@@ -6,6 +6,13 @@ void SerialPrint_q_angle() {
   Serial.print("\t");
   Serial.println(q_angle.roll);
 }
+void SerialPrint_q_angle_chart() {
+  Serial.print(q_angle.yaw);
+  Serial.print(",");
+  Serial.print(q_angle.pitch);
+  Serial.print(",");
+  Serial.println(q_angle.roll);
+}
 void SerialPrint_exp_angle() {
   Serial.print("exp_angle\t");
   Serial.print(exp_angle.yaw);

@@ -21,7 +21,7 @@ unsigned long loopTime = 1;
 unsigned int freq = 0;
 
 void setup() {
-  //Serial.begin(115200);
+  Serial.begin(115200);
   
   mpuSet();
   nrfSet();
@@ -40,8 +40,8 @@ void loop() {
   //if(freq > 200 )  
   //Serial.println(freq);
 /**********************************************************************/
-  getMPUData();      //SerialPrint_q_angle(); SerialPrint_exp_angle();
-  //SerialPrint_Pitch_GyroY();
+  getMPUData();      // SerialPrint_exp_angle();
+  SerialPrint_q_angle_chart();
   if (radio.available()) {
     getExp();
   }
@@ -55,7 +55,8 @@ void loop() {
    
   //Yaw   = PID_Yaw.P   * diff_angle.z - PID_Yaw.D   * gyro.z;
 
-  Thr = throttle;
+  Thr += throttle;
+  Thr = constrain( Thr, 1000, 1600 );
 
   // Output the throttle to motors    + -model
   Motor[0] = (int16_t)(Thr - Pitch        );//+ Yaw);

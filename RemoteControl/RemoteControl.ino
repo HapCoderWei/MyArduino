@@ -71,12 +71,14 @@ void loop(){
   T_temp /= 3;  Y_temp /= 3;
   P_temp /= 3;  R_temp /= 3;
   
-  Throttle = map(T_temp, 0, 1022,    105, 200);
+  //Throttle = map(T_temp, 0, 1022,    105, 200);
+  Throttle = map(T_temp, 0, 1022,    -50, 50);
   Yaw        = map(Y_temp, 0, 1022, -100, 100);
   Pitch      = map(P_temp, 0, 1022, -100, 100);
   Roll        = map(R_temp, 0, 1022, -100, 100);
   
-  TxBuf[0] = Throttle * 10;  // Step By 10, So [0, 100] -> [0, 1000]
+  //TxBuf[0] = Throttle * 10;  // Step By 10, So [105, 200] -> [1050, 2000]
+  TxBuf[0] = Throttle * 1；
   TxBuf[1] = Yaw;
   TxBuf[2] = Pitch;
   TxBuf[3] = Roll;

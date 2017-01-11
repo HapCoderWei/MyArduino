@@ -33,7 +33,7 @@ void setup() {
 }
 void loop() {
   // this code is for test how many times this scratch can run in a second
-  // result is 100. Just So So... The real runing time is about 3.8ms once!
+  // result is 100. Just So So... 
   /*******************************************************************/
   startLoop = micros();
   freq = 1000000/loopTime;
@@ -41,7 +41,7 @@ void loop() {
   //Serial.println(freq);
 /**********************************************************************/
   getMPUData();      // SerialPrint_exp_angle();
-  SerialPrint_q_angle_chart();
+  //SerialPrint_q_angle_chart();
   if (radio.available()) {
     getExp();
   }
@@ -57,7 +57,7 @@ void loop() {
 
   Thr += throttle;
   Thr = constrain( Thr, 1000, 1600 );
-
+  Serial.println(Thr);
   // Output the throttle to motors    + -model
   Motor[0] = (int16_t)(Thr - Pitch        );//+ Yaw);
   Motor[2] = (int16_t)(Thr + Pitch        );//+ Yaw);

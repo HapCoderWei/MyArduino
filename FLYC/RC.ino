@@ -6,6 +6,7 @@ void nrfSet() {
 void getExp() {
   radio.read(&recBuf, sizeof(recBuf));
   throttle        = recBuf[0];
+  throttle = constrain( throttle, -50, 50 );
   exp_angle.yaw   = recBuf[1] / 100.0 * Angle_Max;
   exp_angle.pitch = recBuf[2] / 100.0 * Angle_Max;
   exp_angle.roll  = recBuf[3] / 100.0 * Angle_Max;

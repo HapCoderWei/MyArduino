@@ -1,7 +1,7 @@
 #ifndef NRF24L01_h
 #define NRF24L01_h
 
-#include "API.h"
+#include "API.H"
 
 //---------------------------------------------
 #define TX_ADR_WIDTH    5   

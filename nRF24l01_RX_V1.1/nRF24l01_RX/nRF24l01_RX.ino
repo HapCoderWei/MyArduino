@@ -28,10 +28,14 @@
 #define TX_ADR_WIDTH    5   // 5 unsigned chars TX(RX) address width
 #define TX_PLOAD_WIDTH  32  // 32 unsigned chars TX payload
 
-unsigned char TX_ADDRESS[TX_ADR_WIDTH]  = 
+unsigned char RX_ADDRESS[TX_ADR_WIDTH]  = 
 {
   0x34,0x43,0x10,0x10,0x01
 }; // Define a static TX address
+unsigned char TX_ADDRESS[TX_ADR_WIDTH]  = 
+{
+  0xe7,0xe7,0xe7,0xe7,0xe7
+}; // Define a static RX address
 
 unsigned char rx_buf[TX_PLOAD_WIDTH];
 unsigned char tx_buf[TX_PLOAD_WIDTH];
@@ -217,12 +221,13 @@ unsigned char SPI_Write_Buf(unsigned char reg, unsigned char *pBuf, unsigned cha
 void RX_Mode(void)
 {
   digitalWrite(CE, 0);
-  SPI_Write_Buf(WRITE_REG + RX_ADDR_P0, TX_ADDRESS, TX_ADR_WIDTH); // Use the same address on the RX device as the TX device
+  SPI_Write_Buf(WRITE_REG + TX_ADDR, TX_ADDRESS, TX_ADR_WIDTH); 
+  SPI_Write_Buf(WRITE_REG + RX_ADDR_P0, RX_ADDRESS, TX_ADR_WIDTH); // Use the same address on the RX device as the TX device
   SPI_RW_Reg(WRITE_REG + EN_AA, 0x01);      // Enable Auto.Ack:Pipe0
   SPI_RW_Reg(WRITE_REG + EN_RXADDR, 0x01);  // Enable Pipe0
-  SPI_RW_Reg(WRITE_REG + RF_CH, 40);        // Select RF channel 40
+  SPI_RW_Reg(WRITE_REG + RF_CH, 0x4c);        // Select RF channel 40
   SPI_RW_Reg(WRITE_REG + RX_PW_P0, TX_PLOAD_WIDTH); // Select same RX payload width as TX Payload width
-  SPI_RW_Reg(WRITE_REG + RF_SETUP, 0x07);   // TX_PWR:0dBm, Datarate:2Mbps, LNA:HCURR
+  SPI_RW_Reg(WRITE_REG + RF_SETUP, 0x0d);   // TX_PWR:0dBm, Datarate:2Mbps, LNA:HCURR
   SPI_RW_Reg(WRITE_REG + CONFIG, 0x0f);     // Set PWR_UP bit, enable CRC(2 unsigned chars) & Prim:RX. RX_DR enabled..
   digitalWrite(CE, 1);                             // Set CE pin high to enable RX device
   //  This device is now ready to receive one packet of 16 unsigned chars payload from a TX device sending to address

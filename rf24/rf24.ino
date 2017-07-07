@@ -3,7 +3,7 @@
 #include <RF24.h>
 
 RF24 radio(7, 8);
-
+//         ce, csn
 const byte rxAddr[6] = "00001";
 
 void setup()

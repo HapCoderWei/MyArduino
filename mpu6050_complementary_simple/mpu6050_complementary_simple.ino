@@ -27,7 +27,7 @@ void loop(){
 //  Serial.print(degY);Serial.print("     ");
 //  Serial.println(angleY);
   
-  delay(3);
+  delay(15);
 }
 
 void mpu6050_init() {

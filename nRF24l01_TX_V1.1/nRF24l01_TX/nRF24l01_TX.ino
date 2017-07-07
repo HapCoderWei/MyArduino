@@ -33,6 +33,10 @@ unsigned char TX_ADDRESS[TX_ADR_WIDTH]  =
 {
   0x34,0x43,0x10,0x10,0x01
 }; // Define a static TX address
+unsigned char RX_ADDRESS[TX_ADR_WIDTH]  = 
+{
+  0xe7,0xe7,0xe7,0xe7,0xe7
+}; // Define a static RX address
 
 unsigned char rx_buf[TX_PLOAD_WIDTH] = {0}; // initialize value
 unsigned char tx_buf[TX_PLOAD_WIDTH] = {0};
@@ -229,8 +233,8 @@ void TX_Mode(void)
   SPI_RW_Reg(WRITE_REG + EN_AA, 0x01);      // Enable Auto.Ack:Pipe0
   SPI_RW_Reg(WRITE_REG + EN_RXADDR, 0x01);  // Enable Pipe0
   SPI_RW_Reg(WRITE_REG + SETUP_RETR, 0x1a); // 500us + 86us, 10 retrans...
-  SPI_RW_Reg(WRITE_REG + RF_CH, 40);        // Select RF channel 40
-  SPI_RW_Reg(WRITE_REG + RF_SETUP, 0x07);   // TX_PWR:0dBm, Datarate:2Mbps, LNA:HCURR
+  SPI_RW_Reg(WRITE_REG + RF_CH, 0x4c);        // Select RF channel 40
+  SPI_RW_Reg(WRITE_REG + RF_SETUP, 0x0d);   // TX_PWR:0dBm, Datarate:2Mbps, LNA:HCURR
   SPI_RW_Reg(WRITE_REG + CONFIG, 0x0e);     // Set PWR_UP bit, enable CRC(2 unsigned chars) & Prim:TX. MAX_RT & TX_DS enabled..
   SPI_Write_Buf(WR_TX_PLOAD,tx_buf,TX_PLOAD_WIDTH);
 

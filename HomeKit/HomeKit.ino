@@ -1,5 +1,12 @@
+#include <dht.h>
+
+#define dhtPin 2
+#define PIN 13
+
+dht DHT;
+
 String data;
-const int PIN = 13;
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(PIN,OUTPUT);
@@ -13,10 +20,14 @@ void loop() {
   
   if(data.equals("Hi")) {
     Serial.println("Hello, I'm Arduino.");
-  } else if(data.equals("led on")) {
+  } else if(data.equals("led on")) {  // LED ON
     digitalWrite(PIN,HIGH);
-  } else if(data.equals("led off")){
+  } else if(data.equals("led off")){  // LED OFF
     digitalWrite(PIN,LOW);
+  } else if(data.equals("tem&hum")){  // Temp & Humi
+    DHT.read11(dhtPin);
+    Serial.print(DHT.temperature);
+    Serial.println(DHT.humidity);
   } else {
     Serial.println("Wrong Command.");
   }

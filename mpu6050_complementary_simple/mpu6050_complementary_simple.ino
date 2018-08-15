@@ -4,7 +4,7 @@ int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 
 double angleX = 0, degX, dGyX;
 double angleY = 0, degY, dGyY;
-
+double factor = 0.975;
 void setup(){
   Serial.begin(57600);
   mpu6050_init();
@@ -16,7 +16,7 @@ void loop(){
   //상보필터 X축 기준
   degX = atan2(AcY, AcZ) * 180 / PI;
   dGyX = GyX / 131; //16bit 250 deg/sec
-  angleX = 0.98*(angleX + dGyX*0.001) + 0.02*degX;
+  angleX = factor*(angleX + dGyX*0.001) + (1-factor)*degX;
   Serial.print(angleX);Serial.print("     ");
   Serial.println(degX);
   
